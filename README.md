@@ -2,4 +2,4 @@
 
 Use 
   - IntelliJ
-  - JRE 11
+  - JDK 11
