@@ -1,5 +1,6 @@
 import module.*;
 
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.sql.Connection;
@@ -18,66 +19,149 @@ public class App {
             System.err.println( e.getClass().getName() + ": " + e.getMessage() );
             System.exit(0);
         }
-        input();
-    }
-
-    public static void input() {
         try {
-            Scanner sc = new Scanner(System.in);
+            cls();
             menu();
-            int inp;
-            TacGia tacGia;
-            Sach sach;
-            do {
-                inp = sc.nextInt();
-                switch (inp) {
-                    case 1:
-                        init();
-                        menu();
-                        break;
-                    case 2:
-                        tacGia = new TacGia();
-                        tacGia.themTacGia(c);
-                        menu();
-                        break;
-                    case 3:
-                        tacGia = new TacGia();
-                        tacGia.danhSach(c);
-                        menu();
-                        break;
-                    case 4:
-                        sach = new Sach();
-                        sach.themSach(c);
-                        menu();
-                        break;
-                    case 5:
-                        sach = new Sach();
-                        sach.danhSach(c);
-                        menu();
-                        break;
-                    case 0:
-                        System.out.println("Thoat chuong trinh...");
-                        break;
-                    default:
-                        System.out.print("Nhap lai so: ");
-                }
-            } while (inp != 0);
         } catch ( Exception e ) {
             System.err.println( e.getClass().getName() + ": " + e.getMessage() );
             System.exit(0);
         }
-
     }
 
     public static void menu() {
+        Scanner sc = new Scanner(System.in);
         System.out.println("------------------------------------------------------");
-        System.out.println("1. Cai dat CSDL");
-        System.out.println("2. Them tac gia");
-        System.out.println("3. Danh sach tac gia");
-        System.out.println("4. Them sach");
-        System.out.println("5. Danh sach sach");
-        System.out.println("0. Thoat ");
+        String format = "%2d. %s %n";
+        System.out.format(format, 1, "Cai dat CSDL");
+        System.out.format(format, 2, "Tac gia");
+        System.out.format(format, 3, "Sach");
+        System.out.format(format, 4, "Thanh vien");
+        System.out.format(format, 0, "Thoat");
         System.out.print("Nhap so: ");
+        int inp;
+        do {
+            inp = sc.nextInt();
+            cls();
+            subMenu(inp);
+        } while (inp != 0);
+        System.exit(0);
+    }
+
+    public static void subMenu(int id) {
+        Scanner sc = new Scanner(System.in);
+        System.out.println("------------------------------------------------------");
+        String format = "%2d. %s %n";
+        TacGia tacGia;
+        Sach sach;
+        int inp;
+        if (id == 1) {
+            cls();
+            init();
+            menu();
+        } else if (id == 2) {
+            System.out.println("Menu tac gia");
+            System.out.format(format, 1, "Them tac gia");
+            System.out.format(format, 2, "Xoa tac gia");
+            System.out.format(format, 3, "Danh sach tac gia");
+            System.out.format(format, 0, "Tro ve menu chinh");
+            System.out.print("Nhap so: ");
+            do {
+                inp = sc.nextInt();
+                switch (inp) {
+                    case 1:
+                        tacGia = new TacGia();
+                        cls();
+                        tacGia.themTacGia(c);
+                        subMenu(id);
+                        break;
+                    case 2:
+                        tacGia = new TacGia();
+                        cls();
+                        tacGia.xoaTacGia(c);
+                        subMenu(id);
+                        break;
+                    case 3:
+                        tacGia = new TacGia();
+                        cls();
+                        tacGia.danhSach(c);
+                        subMenu(id);
+                        break;
+                    case 0:
+                        cls();
+                        menu();
+                        break;
+                    default:
+                        cls();
+                        subMenu(id);
+                        break;
+                }
+            } while (inp != 0);
+        } else if (id == 3) {
+            System.out.println("Menu sach");
+            System.out.format(format, 1, "Them sach");
+            System.out.format(format, 2, "Xoa sach");
+            System.out.format(format, 3, "Danh sach sach");
+            System.out.format(format, 0, "Tro ve menu chinh");
+            System.out.print("Nhap so: ");
+            do {
+                inp = sc.nextInt();
+                switch (inp) {
+                    case 1:
+                        sach = new Sach();
+                        cls();
+                        sach.themSach(c);
+                        subMenu(id);
+                        break;
+                    case 2:
+                        sach = new Sach();
+                        cls();
+                        sach.xoaSach(c);
+                        subMenu(id);
+                        break;
+                    case 3:
+                        sach = new Sach();
+                        cls();
+                        sach.danhSach(c);
+                        subMenu(id);
+                        break;
+                    case 0:
+                        cls();
+                        menu();
+                        break;
+                    default:
+                        cls();
+                        subMenu(id);
+                        break;
+                }
+            } while (inp != 0);
+        } else if (id == 4) {
+            cls();
+            System.out.println("------------------------------------------------------");
+            System.out.println("Chua xong hihi");
+            menu();
+//            System.out.println("Menu thanh vien");
+//            System.out.format(format, 1, "Them thanh vien");
+//            System.out.format(format, 2, "Xoa thanh vien");
+//            System.out.format(format, 3, "Danh sach thanh vien");
+//            System.out.format(format, 0, "Tro ve menu chinh");
+//            System.out.print("Nhap so: ");
+
+        } else if (id == 0) {
+            cls();
+            System.out.println("Thoat chuong trinh...");
+        } else {
+            cls();
+            menu();
+            //System.out.print("Nhap lai so: ");
+        }
+    }
+
+    public static void cls() {
+        try {
+            new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
+        } catch (InterruptedException | IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public static void init() {
@@ -87,9 +171,9 @@ public class App {
             System.out.println("Tao cau truc...");
             Statement stmt = c.createStatement();
             String sql = Files.readString(Path.of("library.sql"));
-            stmt.execute(sql);
+//            System.out.println(sql);
+            stmt.executeUpdate(sql);
             stmt.close();
-            stmt = null;
             System.out.println("Hoan thanh!");
         } catch ( Exception e ) {
             System.err.println( e.getClass().getName() + ": " + e.getMessage() );

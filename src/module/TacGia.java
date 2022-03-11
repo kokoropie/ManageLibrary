@@ -63,6 +63,20 @@ public class TacGia {
         }
     }
 
+    public void xoaTacGia(Connection c) {
+        try {
+            Scanner sc = new Scanner(System.in);
+            System.out.println("------------------------------------------------------");
+            System.out.print("Nhap ID tac gia: ");
+            int id = sc.nextInt();
+            String sql = "DELETE FROM tacGia WHERE id = " + id;
+            Statement stmt = c.createStatement();
+            stmt.executeUpdate(sql);
+        } catch ( Exception e ) {
+            System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+        }
+    }
+
     public void danhSach(Connection c) {
         try {
             Scanner sc = new Scanner(System.in);
@@ -75,6 +89,7 @@ public class TacGia {
             System.out.format("+------+--------------------------------+------------+%n");
             System.out.format(leftAlignFormat, "ID", "Ten", "Ngay sinh");
             System.out.format("+------+--------------------------------+------------+%n");
+            System.out.format(leftAlignFormat, "", "", "");
             while (rs.next()) {
                 System.out.format(leftAlignFormat, rs.getString("id"), rs.getString("ten"), rs.getString("ngaySinh"));
             }

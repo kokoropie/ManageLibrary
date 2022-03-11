@@ -61,6 +61,20 @@ public class Sach {
         }
     }
 
+    public void xoaSach(Connection c) {
+        try {
+            Scanner sc = new Scanner(System.in);
+            System.out.println("------------------------------------------------------");
+            System.out.print("Nhap ID sach: ");
+            int id = sc.nextInt();
+            String sql = "DELETE FROM sach WHERE id = " + id;
+            Statement stmt = c.createStatement();
+            stmt.executeUpdate(sql);
+        } catch ( Exception e ) {
+            System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+        }
+    }
+
     public void danhSach(Connection c) {
         try {
             Scanner sc = new Scanner(System.in);
@@ -73,6 +87,7 @@ public class Sach {
             System.out.format("+------+--------------------------------+--------------------------------+------------+------------+%n");
             System.out.format(leftAlignFormat, "ID", "Ten", "Tac gia", "Xuat ban", "Nhap ngay");
             System.out.format("+------+--------------------------------+--------------------------------+------------+------------+%n");
+            System.out.format(leftAlignFormat, "", "", "", "", "");
             while (rs.next()) {
                 TacGia tacGia = new TacGia(rs.getInt("tacGia"), c);
                 System.out.format(leftAlignFormat, rs.getString("id"), rs.getString("ten"), tacGia.getTen(), rs.getString("ngayXuatBan"), rs.getString("ngayNhap"));
