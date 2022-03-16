@@ -17,8 +17,40 @@ public class Sach {
 
     public Sach() {}
 
-    public Sach(int id) {
-        this.id = id;
+    public Sach(int id, Connection c) {
+        setId(id);
+        try {
+            Scanner sc = new Scanner(System.in);
+            String sql = "SELECT ten, tacGia, ngayXuatBan, ngayNhap FROM sach WHERE id = " + id + " LIMIT 1";
+            Statement stmt = c.createStatement();
+            ResultSet rs = stmt.executeQuery(sql);
+            if (rs.next()) {
+                setTen(rs.getString("ten"));
+                setTacGia(new TacGia(rs.getInt("tacGia"), c));
+                setNgayXuatBan((new SimpleDateFormat("yyyy-MM-dd")).parse(rs.getString("ngayXuatBan")));
+                setNgayNhap((new SimpleDateFormat("yyyy-MM-dd")).parse(rs.getString("ngayNhap")));
+            }
+        } catch ( Exception e ) {
+            System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+        }
+    }
+
+    public Sach (int id, TacGia tacGia, Connection c) {
+        setId(id);
+        try {
+            Scanner sc = new Scanner(System.in);
+            String sql = "SELECT ten, tacGia, ngayXuatBan, ngayNhap FROM sach WHERE id = " + id + " LIMIT 1";
+            Statement stmt = c.createStatement();
+            ResultSet rs = stmt.executeQuery(sql);
+            if (rs.next()) {
+                setTen(rs.getString("ten"));
+                setTacGia(tacGia);
+                setNgayXuatBan((new SimpleDateFormat("yyyy-MM-dd")).parse(rs.getString("ngayXuatBan")));
+                setNgayNhap((new SimpleDateFormat("yyyy-MM-dd")).parse(rs.getString("ngayNhap")));
+            }
+        } catch ( Exception e ) {
+            System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+        }
     }
 
     public Sach(int id, String ten, TacGia tacGia, Date ngayXuatBan, Date ngayNhap) {
@@ -36,16 +68,18 @@ public class Sach {
             System.out.println("Nhap thong tin sach");
             System.out.print("Nhap ten: ");
             setTen(sc.nextLine());
+            (new TacGia()).danhSach(c);
             System.out.print("Nhap ID tac gia: ");
             setTacGia(new TacGia(sc.nextInt(), c));
             System.out.print("Nhap ngay xuat ban (dd/mm/yyyy): ");
-            SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-            String ngayXuatBan = sc.next();
-            setNgayXuatBan(formatter.parse(ngayXuatBan));
+            setNgayXuatBan((new SimpleDateFormat("dd/MM/yyyy")).parse(sc.next()));
+            System.out.print("Nhap ngay nhap (dd/mm/yyyy): ");
+            setNgayNhap((new SimpleDateFormat("dd/MM/yyyy")).parse(sc.next()));
 
-            String sql = "INSERT INTO `sach` (`ten`, `tacGia`, `ngayXuatBan`) VALUES ('" + getTen() + "', '"
+            String sql = "INSERT INTO `sach` (`ten`, `tacGia`, `ngayXuatBan`, `ngayNhap`) VALUES ('" + getTen() + "', '"
                     + getTacGia().getId() +"','"
-                    + (new SimpleDateFormat("yyyy-MM-dd")).format(getNgayXuatBan()) +
+                    + (new SimpleDateFormat("yyyy-MM-dd")).format(getNgayXuatBan()) +"','"
+                    + (new SimpleDateFormat("yyyy-MM-dd")).format(getNgayNhap()) +
                     "')";
             PreparedStatement stmt = c.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             stmt.execute();
@@ -55,21 +89,37 @@ public class Sach {
                 generatedKey = rs.getInt(1);
             }
             setId(generatedKey);
-            setNgayNhap(new Date());
         } catch ( Exception e ) {
             System.err.println( e.getClass().getName() + ": " + e.getMessage() );
         }
     }
 
     public void xoaSach(Connection c) {
+        Scanner sc = new Scanner(System.in);
+        this.danhSach(c);
+        System.out.print("Nhap ID sach: ");
+        xoa(sc.nextInt(), c);
+    }
+
+    public void xoa(int id, Connection c) {
         try {
-            Scanner sc = new Scanner(System.in);
-            System.out.println("------------------------------------------------------");
-            System.out.print("Nhap ID sach: ");
-            int id = sc.nextInt();
             String sql = "DELETE FROM sach WHERE id = " + id;
             Statement stmt = c.createStatement();
             stmt.executeUpdate(sql);
+            stmt.close();
+            (new MuonSach()).xoaSach(id, c);
+        } catch ( Exception e ) {
+            System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+        }
+    }
+
+    public void xoaTacGia (int id, Connection c) {
+        try {
+            (new MuonSach()).xoaTacGia(id, c);
+            String sql = "DELETE FROM sach WHERE tacGia = " + id;
+            Statement stmt = c.createStatement();
+            stmt.executeUpdate(sql);
+            stmt.close();
         } catch ( Exception e ) {
             System.err.println( e.getClass().getName() + ": " + e.getMessage() );
         }

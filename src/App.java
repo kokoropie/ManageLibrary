@@ -36,6 +36,7 @@ public class App {
         System.out.format(format, 2, "Tac gia");
         System.out.format(format, 3, "Sach");
         System.out.format(format, 4, "Thanh vien");
+        System.out.format(format, 5, "Muon sach");
         System.out.format(format, 0, "Thoat");
         System.out.print("Nhap so: ");
         int inp;
@@ -53,6 +54,8 @@ public class App {
         String format = "%2d. %s %n";
         TacGia tacGia;
         Sach sach;
+        ThanhVien thanhVien;
+        MuonSach muonSach;
         int inp;
         if (id == 1) {
             cls();
@@ -72,12 +75,16 @@ public class App {
                         tacGia = new TacGia();
                         cls();
                         tacGia.themTacGia(c);
+                        cls();
+                        tacGia.danhSach(c);
                         subMenu(id);
                         break;
                     case 2:
                         tacGia = new TacGia();
                         cls();
                         tacGia.xoaTacGia(c);
+                        cls();
+                        tacGia.danhSach(c);
                         subMenu(id);
                         break;
                     case 3:
@@ -110,12 +117,16 @@ public class App {
                         sach = new Sach();
                         cls();
                         sach.themSach(c);
+                        cls();
+                        sach.danhSach(c);
                         subMenu(id);
                         break;
                     case 2:
                         sach = new Sach();
                         cls();
                         sach.xoaSach(c);
+                        cls();
+                        sach.danhSach(c);
                         subMenu(id);
                         break;
                     case 3:
@@ -135,17 +146,96 @@ public class App {
                 }
             } while (inp != 0);
         } else if (id == 4) {
-            cls();
-            System.out.println("------------------------------------------------------");
-            System.out.println("Chua xong hihi");
-            menu();
-//            System.out.println("Menu thanh vien");
-//            System.out.format(format, 1, "Them thanh vien");
-//            System.out.format(format, 2, "Xoa thanh vien");
-//            System.out.format(format, 3, "Danh sach thanh vien");
-//            System.out.format(format, 0, "Tro ve menu chinh");
-//            System.out.print("Nhap so: ");
-
+            System.out.println("Menu thanh vien");
+            System.out.format(format, 1, "Them thanh vien");
+            System.out.format(format, 2, "Xoa thanh vien");
+            System.out.format(format, 3, "Danh sach thanh vien");
+            System.out.format(format, 0, "Tro ve menu chinh");
+            System.out.print("Nhap so: ");
+            do {
+                inp = sc.nextInt();
+                switch (inp) {
+                    case 1:
+                        thanhVien = new ThanhVien();
+                        cls();
+                        thanhVien.themThanhVien(c);
+                        cls();
+                        thanhVien.danhSach(c);
+                        subMenu(id);
+                        break;
+                    case 2:
+                        thanhVien = new ThanhVien();
+                        cls();
+                        thanhVien.xoaThanhVien(c);
+                        cls();
+                        thanhVien.danhSach(c);
+                        subMenu(id);
+                        break;
+                    case 3:
+                        thanhVien = new ThanhVien();
+                        cls();
+                        thanhVien.danhSach(c);
+                        subMenu(id);
+                        break;
+                    case 0:
+                        cls();
+                        menu();
+                        break;
+                    default:
+                        cls();
+                        subMenu(id);
+                        break;
+                }
+            } while (inp != 0);
+        } else if (id == 5) {
+            System.out.println("Menu muon sach");
+            System.out.format(format, 1, "Them muon sach");
+            System.out.format(format, 2, "Xoa muon sach");
+            System.out.format(format, 3, "Danh sach muon sach");
+            System.out.format(format, 4, "Chi tiet muon sach");
+            System.out.format(format, 0, "Tro ve menu chinh");
+            System.out.print("Nhap so: ");
+            do {
+                inp = sc.nextInt();
+                switch (inp) {
+                    case 1:
+                        muonSach = new MuonSach();
+                        cls();
+                        muonSach.themMuonSach(c);
+                        cls();
+                        muonSach.danhSach(c);
+                        subMenu(id);
+                        break;
+                    case 2:
+                        muonSach = new MuonSach();
+                        cls();
+                        muonSach.xoaMuonSach(c);
+                        cls();
+                        muonSach.danhSach(c);
+                        subMenu(id);
+                        break;
+                    case 3:
+                        muonSach = new MuonSach();
+                        cls();
+                        muonSach.danhSach(c);
+                        subMenu(id);
+                        break;
+                    case 4:
+                        muonSach = new MuonSach();
+                        cls();
+                        muonSach.chiTiet(c);
+                        subMenu(id);
+                        break;
+                    case 0:
+                        cls();
+                        menu();
+                        break;
+                    default:
+                        cls();
+                        subMenu(id);
+                        break;
+                }
+            } while (inp != 0);
         } else if (id == 0) {
             cls();
             System.out.println("Thoat chuong trinh...");

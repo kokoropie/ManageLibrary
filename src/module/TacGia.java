@@ -16,7 +16,7 @@ public class TacGia {
     public TacGia() {}
 
     public TacGia (int id, Connection c) {
-        this.id = id;
+        setId(id);
         try {
             Scanner sc = new Scanner(System.in);
             String sql = "SELECT ten, ngaySinh FROM tacGia WHERE id = " + id + " LIMIT 1";
@@ -64,14 +64,21 @@ public class TacGia {
     }
 
     public void xoaTacGia(Connection c) {
+        Scanner sc = new Scanner(System.in);
+        System.out.println("------------------------------------------------------");
+        System.out.println("Xoa tac gia se xoa cac sach lien quan");
+        this.danhSach(c);
+        System.out.print("Nhap ID tac gia: ");
+        xoa(sc.nextInt(), c);
+    }
+
+    public void xoa (int id, Connection c) {
         try {
-            Scanner sc = new Scanner(System.in);
-            System.out.println("------------------------------------------------------");
-            System.out.print("Nhap ID tac gia: ");
-            int id = sc.nextInt();
             String sql = "DELETE FROM tacGia WHERE id = " + id;
             Statement stmt = c.createStatement();
             stmt.executeUpdate(sql);
+            stmt.close();
+            (new Sach()).xoaTacGia(id, c);
         } catch ( Exception e ) {
             System.err.println( e.getClass().getName() + ": " + e.getMessage() );
         }

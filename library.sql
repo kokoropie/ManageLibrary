@@ -9,21 +9,21 @@ CREATE TABLE `sach` (
   `ten` varchar(255),
   `tacGia` int,
   `ngayXuatBan` date,
-  `ngayNhap` date DEFAULT current_date
+  `ngayNhap` date
 );
 
 CREATE TABLE `muonSach` (
   `id` integer PRIMARY KEY AUTOINCREMENT,
   `thanhVien` integer,
   `sach` integer,
-  `ngayMuon` datetime DEFAULT current_timestamp,
+  `ngayMuon` datetime,
   `ngayTra` datetime
 );
 
 CREATE TABLE `thanhVien` (
   `id` integer PRIMARY KEY AUTOINCREMENT,
   `ten` varchar(255),
-  `ngayThamGia` datetime DEFAULT current_timestamp
+  `ngayThamGia` datetime
 );
 
 ALTER TABLE `sach` ADD `ref_tacGia` KEY `tacGia` REFERENCES `tacGia` (`id`);
