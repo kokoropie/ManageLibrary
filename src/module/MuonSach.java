@@ -64,12 +64,15 @@ public class MuonSach {
     }
 
     public void xoaMuonSach (Connection c) {
-
+        Scanner sc = new Scanner(System.in);
+        this.danhSach(c);
+        System.out.print("Nhap ID muon sach: ");
+        xoa(sc.nextInt(), c);
     }
 
     public void xoa (int id, Connection c) {
         try {
-            String sql = "DELETE FROM sach WHERE id = " + id;
+            String sql = "DELETE FROM muonSach WHERE id = " + id;
             Statement stmt = c.createStatement();
             stmt.executeUpdate(sql);
         } catch ( Exception e ) {
