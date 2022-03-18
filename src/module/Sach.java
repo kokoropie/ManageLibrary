@@ -148,6 +148,31 @@ public class Sach {
         }
     }
 
+    public void danhSachTacGia(Connection c) {
+        try {
+            Scanner sc = new Scanner(System.in);
+            (new TacGia()).danhSach(c);
+            System.out.print("Nhap ID tac gia: ");
+            int id = sc.nextInt();
+            System.out.println("------------------------------------------------------");
+            System.out.println("Danh sach sach");
+            String sql = "SELECT * FROM sach WHERE tacGia = " + id;
+            Statement stmt = c.createStatement();
+            ResultSet rs = stmt.executeQuery(sql);
+            String leftAlignFormat = "| %-4s | %-30s | %-10s | %-10s |%n";
+            System.out.format("+------+--------------------------------+------------+------------+%n");
+            System.out.format(leftAlignFormat, "ID", "Ten", "Xuat ban", "Nhap ngay");
+            System.out.format("+------+--------------------------------+------------+------------+%n");
+            System.out.format(leftAlignFormat, "", "", "", "");
+            while (rs.next()) {
+                System.out.format(leftAlignFormat, rs.getString("id"), rs.getString("ten"), rs.getString("ngayXuatBan"), rs.getString("ngayNhap"));
+            }
+            System.out.format("+------+--------------------------------+------------+------------+%n");
+        } catch ( Exception e ) {
+            System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+        }
+    }
+
     public int getId() {
         return id;
     }

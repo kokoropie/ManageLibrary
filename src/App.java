@@ -108,6 +108,7 @@ public class App {
             System.out.format(format, 1, "Them sach");
             System.out.format(format, 2, "Xoa sach");
             System.out.format(format, 3, "Danh sach sach");
+            System.out.format(format, 4, "Danh sach sach theo tac gia");
             System.out.format(format, 0, "Tro ve menu chinh");
             System.out.print("Nhap so: ");
             do {
@@ -133,6 +134,12 @@ public class App {
                         sach = new Sach();
                         cls();
                         sach.danhSach(c);
+                        subMenu(id);
+                        break;
+                    case 4:
+                        sach = new Sach();
+                        cls();
+                        sach.danhSachTacGia(c);
                         subMenu(id);
                         break;
                     case 0:
